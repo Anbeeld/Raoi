@@ -28,7 +28,7 @@ export default class Raoi {
   }
 
   static get<Type = object>(id: number, type?: { new (...args: any[]): Type }) : Type|undefined {
-    if (id > Raoi.id) {
+    if (id > Raoi.id || id < Raoi.startOffset) {
       return undefined;
     }
 
@@ -47,7 +47,7 @@ export default class Raoi {
   }
 
   static unregister(id: number) : void {
-    if (id > Raoi.id) {
+    if (id > Raoi.id || id < Raoi.startOffset) {
       return;
     }
 
