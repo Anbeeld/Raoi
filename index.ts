@@ -1,12 +1,13 @@
 export default class Raoi {
   private static id = 0;
-  private static weakRefsSupported: boolean|undefined = undefined;
+  private static startOffset = 0;
+  private static weakRefSupported: boolean|undefined = undefined;
   // @ts-ignore
   private static weakRefs: (WeakRef<object>|undefined)[] = [];
   private static strongRefs: (object|undefined)[] = [];
 
   static new(object?: object) : number {
-    if (Raoi.hasWeakRefsSupport()) {
+    if (Raoi.hasWeakRefSupport()) {
       if (object !== undefined) {
         // @ts-ignore
         Raoi.weakRefs.push(new WeakRef(object));
@@ -21,6 +22,8 @@ export default class Raoi {
       }
     }
 
+    Raoi.updateStartOffset();
+
     return Raoi.id++;
   }
 
@@ -30,10 +33,10 @@ export default class Raoi {
     }
 
     let ref;
-    if (Raoi.hasWeakRefsSupport()) {
-      ref = Raoi.weakRefs[id].deref();
+    if (Raoi.hasWeakRefSupport()) {
+      ref = Raoi.weakRefs[-Raoi.startOffset + id].deref();
     } else {
-      ref = Raoi.strongRefs[id];
+      ref = Raoi.strongRefs[-Raoi.startOffset + id];
     }
 
     if (type !== undefined && !(ref instanceof type)) {
@@ -48,23 +51,54 @@ export default class Raoi {
       return;
     }
 
-    if (Raoi.hasWeakRefsSupport()) {
-      Raoi.weakRefs[id] = undefined;
+    if (Raoi.hasWeakRefSupport()) {
+      Raoi.weakRefs[-Raoi.startOffset + id] = undefined;
     } else {
-      Raoi.strongRefs[id] = undefined;
+      Raoi.strongRefs[-Raoi.startOffset + id] = undefined;
     }
+
+    Raoi.updateStartOffset();
   }
 
-  private static hasWeakRefsSupport() : boolean {
-    if (Raoi.weakRefsSupported === undefined) {
-      Raoi.weakRefsSupported = true;
+  private static hasWeakRefSupport() : boolean {
+    if (Raoi.weakRefSupported === undefined) {
+      Raoi.weakRefSupported = true;
       try {
         // @ts-ignore
         new WeakRef(new Object());
       } catch (e) {
-        Raoi.weakRefsSupported = false;
+        Raoi.weakRefSupported = false;
       }
     }
-    return Raoi.weakRefsSupported;
+    return Raoi.weakRefSupported;
+  }
+
+  private static updateStartOffset() : void {
+    let initialStartOffset = Raoi.startOffset;
+    if (Raoi.hasWeakRefSupport()) {
+      for (let i = 0; i < Raoi.weakRefs.length; i++) {
+        if (Raoi.weakRefs[i] === undefined) {
+          Raoi.startOffset += 1;
+        } else {
+          break;
+        }
+      }
+      if (Raoi.startOffset > initialStartOffset) {
+        Raoi.weakRefs = Raoi.weakRefs.slice(Raoi.startOffset - initialStartOffset);
+      }
+      console.log('length ' + Raoi.weakRefs.length);
+    } else {
+      for (let i = 0; i < Raoi.strongRefs.length; i++) {
+        if (Raoi.strongRefs[i] === undefined) {
+          Raoi.startOffset += 1;
+        } else {
+          break;
+        }
+      }
+      if (Raoi.startOffset > initialStartOffset) {
+        Raoi.strongRefs = Raoi.strongRefs.slice(Raoi.startOffset - initialStartOffset);
+      }
+      console.log('length ' + Raoi.strongRefs.length);
+    }
   }
 }
