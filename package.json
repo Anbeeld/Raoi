@@ -1,0 +1,33 @@
+{
+  "name": "raoi",
+  "version": "0.1.0",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {},
+  "author": "Anbeeld <anbeeld@gmail.com>",
+  "license": "MIT",
+  "description": "Raoi aka Register of Auto-incrementing Object Identificators is a simple TS library allowing to give objects unique ids and later retrieve them by said ids.",
+  "keywords": [
+    "id",
+    "identifier",
+    "object",
+    "unique",
+    "register"
+  ],
+  "repository": "github:Anbeeld/Raoi",
+  "funding": [
+    {
+      "type": "buymeacoffee",
+      "url": "https://buymeacoffee.com/anbeeld"
+    },
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/c/anbeeld"
+    }
+  ],
+  "type": "module",
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "webpack": "^5.97.1"
+  }
+}
