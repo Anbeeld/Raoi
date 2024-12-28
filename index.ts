@@ -6,9 +6,7 @@ export default class Raoi {
   private static strongRefs: (object|undefined)[] = [];
 
   static new(object?: object) : number {
-    Raoi.checkWeakRefsSupport();
-
-    if (Raoi.weakRefsSupported) {
+    if (Raoi.hasWeakRefsSupport()) {
       if (object !== undefined) {
         // @ts-ignore
         Raoi.weakRefs.push(new WeakRef(object));
@@ -31,10 +29,8 @@ export default class Raoi {
       return undefined;
     }
 
-    Raoi.checkWeakRefsSupport();
-
     let ref;
-    if (Raoi.weakRefsSupported) {
+    if (Raoi.hasWeakRefsSupport()) {
       ref = Raoi.weakRefs[id].deref();
     } else {
       ref = Raoi.strongRefs[id];
@@ -52,14 +48,14 @@ export default class Raoi {
       return;
     }
 
-    if (Raoi.weakRefsSupported) {
+    if (Raoi.hasWeakRefsSupport()) {
       Raoi.weakRefs[id] = undefined;
     } else {
       Raoi.strongRefs[id] = undefined;
     }
   }
 
-  private static checkWeakRefsSupport() : void {
+  private static hasWeakRefsSupport() : boolean {
     if (Raoi.weakRefsSupported === undefined) {
       Raoi.weakRefsSupported = true;
       try {
@@ -69,5 +65,6 @@ export default class Raoi {
         Raoi.weakRefsSupported = false;
       }
     }
+    return Raoi.weakRefsSupported;
   }
 }
