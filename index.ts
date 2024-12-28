@@ -1,11 +1,11 @@
 export default class Raoi {
   private static id = 0;
-  private static weakRefsSupported: boolean|null = null;
+  private static weakRefsSupported: boolean|undefined = undefined;
   // @ts-ignore
-  private static weakRefs: (WeakRef<Object>|null)[] = [];
-  private static strongRefs: (Object|null)[] = [];
+  private static weakRefs: (WeakRef<object>|undefined)[] = [];
+  private static strongRefs: (object|undefined)[] = [];
 
-  static new(object?: Object) : number {
+  static new(object?: object) : number {
     Raoi.checkWeakRefsSupport();
 
     if (Raoi.weakRefsSupported) {
@@ -13,39 +13,38 @@ export default class Raoi {
         // @ts-ignore
         Raoi.weakRefs.push(new WeakRef(object));
       } else {
-        Raoi.weakRefs.push(null);
+        Raoi.weakRefs.push(undefined);
       }
     } else {
       if (object !== undefined) {
         Raoi.strongRefs.push(object);
       } else {
-        Raoi.strongRefs.push(null);
+        Raoi.strongRefs.push(undefined);
       }
     }
 
     return Raoi.id++;
   }
 
-  static get(id: number) : Object|undefined|null {
+  static get<Type = object>(id: number, type?: { new (...args: any[]): Type }) : Type|undefined {
     if (id > Raoi.id) {
-      return null;
+      return undefined;
     }
 
     Raoi.checkWeakRefsSupport();
 
+    let ref;
     if (Raoi.weakRefsSupported) {
-      if (Raoi.weakRefs[id] === null) {
-        return null;
-      }
-      return Raoi.weakRefs[id].deref();
+      ref = Raoi.weakRefs[id].deref();
     } else {
-      if (Raoi.strongRefs[id] === null) {
-        return null;
-      } else if (Raoi.strongRefs[id] === undefined) {
-        return undefined;
-      }
-      return Raoi.strongRefs[id];
+      ref = Raoi.strongRefs[id];
     }
+
+    if (type !== undefined && !(ref instanceof type)) {
+      return undefined;
+    }
+
+    return ref;
   }
 
   static unregister(id: number) : void {
@@ -54,14 +53,14 @@ export default class Raoi {
     }
 
     if (Raoi.weakRefsSupported) {
-      Raoi.weakRefs[id] = null;
+      Raoi.weakRefs[id] = undefined;
     } else {
-      Raoi.strongRefs[id] = null;
+      Raoi.strongRefs[id] = undefined;
     }
   }
 
   private static checkWeakRefsSupport() : void {
-    if (Raoi.weakRefsSupported === null) {
+    if (Raoi.weakRefsSupported === undefined) {
       Raoi.weakRefsSupported = true;
       try {
         // @ts-ignore
