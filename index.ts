@@ -86,7 +86,6 @@ export default class Raoi {
       if (Raoi.startOffset > initialStartOffset) {
         Raoi.weakRefs = Raoi.weakRefs.slice(Raoi.startOffset - initialStartOffset);
       }
-      console.log('length ' + Raoi.weakRefs.length);
     } else {
       for (let i = 0; i < Raoi.strongRefs.length; i++) {
         if (Raoi.strongRefs[i] === undefined) {
@@ -98,7 +97,6 @@ export default class Raoi {
       if (Raoi.startOffset > initialStartOffset) {
         Raoi.strongRefs = Raoi.strongRefs.slice(Raoi.startOffset - initialStartOffset);
       }
-      console.log('length ' + Raoi.strongRefs.length);
     }
   }
 }
