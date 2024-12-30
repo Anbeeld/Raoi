@@ -27,7 +27,7 @@ export default class Raoi {
     return Raoi.id++;
   }
 
-  static get<Type = object>(id: number, type?: { new (...args: any[]): Type }) : Type|undefined {
+  static get<Type = object>(id: number, type?: abstract new (...args: any[]) => Type) : Type|undefined {
     if (id > Raoi.id || id < Raoi.startOffset) {
       return undefined;
     }
