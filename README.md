@@ -4,7 +4,7 @@
 
 Raoi aka Register of Auto-incrementing Object Identificators is a simple TS library allowing to give objects unique ids and later retrieve them by said ids.
 
-Plain old ids from 0 to the Moon, which allows to store object references as an array with fast id -> object search. Uses WeakRef if supported, strong references otherwise.
+Plain old ids from 0 to the Moon, which allows to store object references as an array with fast id ‑> object search. Uses WeakRef if supported, strong references otherwise.
 
 [![Support my work!](https://raw.githubusercontent.com/Anbeeld/Anbeeld.github.io/refs/heads/main/support/button.jpg)](https://anbeeld.github.io/support/)
 
