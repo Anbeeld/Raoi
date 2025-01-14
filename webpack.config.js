@@ -1,4 +1,5 @@
 import path from 'path';
+import TerserPlugin from 'terser-webpack-plugin';
 
 const webConfig = {
   mode: 'production',
@@ -27,6 +28,23 @@ const webConfig = {
       type: 'var',
       export: 'default',
     },
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            passes: 2,
+          },
+          mangle: {
+            properties: {
+              regex: /^_.*|^[^a-z]*$/
+            }
+          }
+        }
+      }),
+    ],
   },
 };
 
