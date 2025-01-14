@@ -1,6 +1,6 @@
 {
   "name": "raoi",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Raoi aka Register of Auto-incrementing Object Identificators is a simple TS library allowing to give objects unique ids and later retrieve them by said ids.",
   "keywords": [
     "id",
