@@ -1,7 +1,7 @@
 {
   "name": "raoi",
   "version": "0.2.3",
-  "description": "Raoi aka Register of Auto-incrementing Object Identificators is a simple TS library allowing to give objects unique ids and later retrieve them by said ids.",
+  "description": "Raoi aka Register of Auto-incrementing Object Identifiers is a simple TS library allowing to give objects unique ids and later retrieve them by said ids.",
   "keywords": [
     "id",
     "identifier",
@@ -21,12 +21,16 @@
   "type": "module",
   "main": "index.js",
   "types": "index.d.ts",
-  "scripts": {},
+  "scripts": {
+    "build": "npx webpack",
+    "test-typescript": "npx tsc && node test/typescript.js",
+    "test-javascript": "npx tsc && node test/javascript.js"
+  },
   "devDependencies": {
     "terser-webpack-plugin": "^5.3.11",
     "ts-loader": "^9.5.2",
     "typescript": "^5.7.3",
-    "webpack": "^5.97.1",
+    "webpack": "^5.98.0",
     "webpack-cli": "^6.0.1"
   }
 }

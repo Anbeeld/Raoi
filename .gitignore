@@ -1,4 +1,6 @@
 node_modules/
 index.js
 index.d.ts
+test/typescript.js
+test/typescript.d.ts
 *.tgz
